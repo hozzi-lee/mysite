@@ -121,8 +121,8 @@ public class GuestbookDao {
 					+ " 	no, "
 					+ " 	name, "
 					+ " 	password, "
-					+ " 	reg_date, "
-					+ " 	content "
+					+ " 	content, "
+					+ " 	reg_date "
 					+ " FROM "
 					+ " 	guestbook "
 					+ " ORDER BY "
@@ -144,7 +144,7 @@ public class GuestbookDao {
 				gList.add(gVo);
 				*/
 				
-				gList.add(new GuestbookVo(rs.getInt("no"), rs.getString("name"), rs.getString("password"), rs.getString("reg_date"), rs.getString("content")));
+				gList.add(new GuestbookVo(rs.getInt("no"), rs.getString("name"), rs.getString("password"), rs.getString("content"), rs.getString("reg_date")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
