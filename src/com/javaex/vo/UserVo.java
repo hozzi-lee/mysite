@@ -2,6 +2,7 @@ package com.javaex.vo;
 
 public class UserVo {
 	
+	private int no;
 	private String id;
 	private String password;
 	private String name;
@@ -12,6 +13,11 @@ public class UserVo {
 		
 	}
 	
+	public UserVo(int no, String name) {
+		this.no = no;
+		this.name = name;
+	}
+	
 	public UserVo(String id, String password, String name, String gender) {
 		this.id = id;
 		this.password = password;
@@ -19,7 +25,22 @@ public class UserVo {
 		this.gender = gender;
 	}
 	
-
+	public UserVo(int no, String id, String password, String name, String gender) {
+		this.no = no;
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.gender = gender;
+	}
+	
+	public int getNo() {
+		return no;
+	}
+	
+	public void setNo(int no) {
+		this.no = no;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -54,7 +75,7 @@ public class UserVo {
 
 	@Override
 	public String toString() {
-		return "UserVo [id=" + id + ", password=" + password + ", name=" + name + ", gender=" + gender + "]";
+		return "UserVo [no= " + no + ", id= " + id + ", password=" + password + ", name=" + name + ", gender=" + gender + "]";
 	}
 	
 	

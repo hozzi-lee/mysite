@@ -1,15 +1,17 @@
 package com.javaex.dao;
 
-import com.javaex.vo.UserVo;
-
 public class DaoTest {
 
 	public static void main(String[] args) {
 		
-		MysiteDao mDao = new MysiteDao();
+		UserDao userDao = new UserDao();
+		 /* 
+		 * mDao.insert(new UserVo("abcd12345", "abcd1234", "lee", "male"));
+		 */
 		
-		mDao.insert(new UserVo("abcd12345", "abcd1234", "lee", "male"));
-
+		userDao.getUser("asdasd", "123123");
+		System.out.println(userDao.getUser("asdasd", "123123"));
+		
 	}
 
 }

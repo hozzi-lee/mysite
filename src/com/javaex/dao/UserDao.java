@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import com.javaex.vo.UserVo;
 
-public class MysiteDao {
+public class UserDao {
 	
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
@@ -66,7 +66,7 @@ public class MysiteDao {
 		if (count > 0) {
 			System.out.println("[ID: " + uVo.getId() + ", NAME: " + uVo.getName() + "] 가입완료");
 		} else {
-			System.out.println("]관리자에게 문의]");
+			System.out.println("ERROR: " + count);
 		}
 		
 		} catch (SQLException e) {
@@ -76,6 +76,51 @@ public class MysiteDao {
 		getClose();
 		
 		return count;
+	}
+	
+	// oneUser
+	public UserVo getUser(String id, String pw) {
+		UserVo userVo = null;
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" SELECT "
+					+ " 	no, "
+					+ " 	name "
+					+ " FROM "
+					+ " 	users "
+					+ " WHERE "
+					+ " 	id = ? "
+					+ " 	AND password = ? "
+					);
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String name = rs.getString("name");
+				
+				// 2개짜리 생성자가 없는 경우
+				/*
+				 * userVo.setNo(no);
+				 * userVo.setName(name);
+				 */
+				
+				userVo = new UserVo(no, name);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return userVo;
 	}
 
 }

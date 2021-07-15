@@ -7,8 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.javaex.dao.MysiteDao;
+import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.UserVo;
 
@@ -20,7 +21,8 @@ public class UserController extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
-		MysiteDao mysiteDao = new MysiteDao();
+		HttpSession session = request.getSession();
+		UserDao userDao = new UserDao();
 
 		String action = request.getParameter("action");
 
@@ -35,7 +37,7 @@ public class UserController extends HttpServlet {
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
 
-			mysiteDao.insert(new UserVo(id, pw, name, gender));
+			userDao.insert(new UserVo(id, pw, name, gender));
 
 			// FORWARD - joinOk.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinOk.jsp");
@@ -43,6 +45,36 @@ public class UserController extends HttpServlet {
 			
 			// FORWARD - loginForm.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
+			
+		} else if ("login".equals(action)) {
+			// getParameter
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			
+			// DB getUser
+			// userDao.getUser(id, pw); // return == no, name
+			UserVo userVo = userDao.getUser(id, pw);
+			if (userVo != null) {
+				System.out.println("로그인 성공");
+				// if (id != null || pw != null) SAVE in SESSION
+				session.setAttribute("authUser", userVo);
+				
+				// sendRedirect
+				WebUtil.sendRedirect(response, "/mysite/main");
+			} else {
+				System.out.println("로그인 실패");
+				// if (id = null && pw = null) SESSION FAIL
+				// sendRedirect
+				WebUtil.sendRedirect(response, "/mysite/user?action=loginForm&result=fail");
+			}
+			
+		} else if ("logout".equals(action)) {
+			// delete SESSION
+			session.removeAttribute("authUser");
+			session.invalidate();
+			
+			// sendRedirect
+			WebUtil.sendRedirect(response, "/mysite/main");
 			
 		}
 
