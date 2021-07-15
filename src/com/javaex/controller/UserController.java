@@ -55,14 +55,12 @@ public class UserController extends HttpServlet {
 			// userDao.getUser(id, pw); // return == no, name
 			UserVo userVo = userDao.getUser(id, pw);
 			if (userVo != null) {
-				System.out.println("로그인 성공");
 				// if (id != null || pw != null) SAVE in SESSION
 				session.setAttribute("authUser", userVo);
 				
 				// sendRedirect
 				WebUtil.sendRedirect(response, "/mysite/main");
 			} else {
-				System.out.println("로그인 실패");
 				// if (id = null && pw = null) SESSION FAIL
 				// sendRedirect
 				WebUtil.sendRedirect(response, "/mysite/user?action=loginForm&result=fail");
@@ -76,6 +74,33 @@ public class UserController extends HttpServlet {
 			// sendRedirect
 			WebUtil.sendRedirect(response, "/mysite/main");
 			
+		} else if ("modifyForm".equals(action)) {
+			// getParameter
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			//DB getUser
+			UserVo userVo = userDao.getUser(authUser.getNo());
+			
+			session.setAttribute("modifyUser", userVo);
+			// FORWARD
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+		} else if ("modify".equals(action)) {
+			// getParameter
+			int no = Integer.parseInt(request.getParameter("no"));
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			String name = request.getParameter("name");
+			String gender = request.getParameter("gender");
+			
+			// DB UPDATE
+			userDao.update(new UserVo(no, pw, name, gender));
+			
+			// SESSION
+			UserVo userVo = userDao.getUser(id, pw);
+			session.setAttribute("authUser", userVo);
+			
+			// sendRedirect
+			WebUtil.sendRedirect(response, "/mysite/main");
 		}
 
 	}

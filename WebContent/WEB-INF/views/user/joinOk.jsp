@@ -8,7 +8,7 @@ String name = request.getParameter("name");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입성공</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/user.css" rel="stylesheet" type="text/css">
 

@@ -44,6 +44,7 @@ public class UserDao {
 		
 	}
 	
+	// INSERT
 	public int insert(UserVo uVo) {
 		int count = -1;
 		
@@ -121,6 +122,112 @@ public class UserDao {
 		getClose();
 		
 		return userVo;
+	}
+	
+	// id로 시도 == 실패
+	/*
+	public UserVo getUser(String id) {
+		UserVo userVo = new UserVo();
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" SELECT "
+					+ " 	id, "
+					+ " 	name, "
+					+ " 	password, "
+					+ " 	gender "
+					+ " FROM "
+					+ " 	users "
+					+ " WHERE "
+					+ " 	id = ? "
+					);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				userVo = new UserVo(rs.getString("id"), rs.getString("name"), rs.getString("password"), rs.getString("gender"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return userVo;
+	}
+	*/
+	
+	public UserVo getUser(int no) {
+		UserVo userVo = new UserVo();
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" SELECT "
+					+ " 	no, "
+					+ " 	id, "
+					+ " 	password, "
+					+ " 	name, "
+					+ " 	gender "
+					+ " FROM "
+					+ " 	users "
+					+ " WHERE "
+					+ " 	no = ? "
+					);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				userVo = new UserVo(rs.getInt("no"), rs.getString("id"), rs.getString("password"), rs.getString("name"), rs.getString("gender"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return userVo;
+	}
+	
+	public int update(UserVo uVo) {
+		int count = -1;
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" UPDATE "
+					+ " 	users "
+					+ " SET "
+					+ " 	password = ?, "
+					+ " 	name = ?, "
+					+ " 	gender = ? "
+					+ " WHERE "
+					+ " 	no = ? "
+					);
+			
+			pstmt.setString(1, uVo.getPassword());
+			pstmt.setString(2, uVo.getName());
+			pstmt.setString(3, uVo.getGender());
+			pstmt.setInt(4, uVo.getNo());
+			
+			count = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return count;
 	}
 
 }

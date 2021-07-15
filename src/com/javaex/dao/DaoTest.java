@@ -1,5 +1,7 @@
 package com.javaex.dao;
 
+import com.javaex.vo.UserVo;
+
 public class DaoTest {
 
 	public static void main(String[] args) {
@@ -12,6 +14,7 @@ public class DaoTest {
 		userDao.getUser("asdasd", "123123");
 		System.out.println(userDao.getUser("asdasd", "123123"));
 		
+		userDao.update(new UserVo(5, "6666", "6666", "6666"));
 	}
 
 }

@@ -9,7 +9,7 @@ int no = Integer.parseInt(request.getParameter("no"));
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>방명록 삭제</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 
