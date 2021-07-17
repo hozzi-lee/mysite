@@ -53,10 +53,10 @@ public class UserController extends HttpServlet {
 			
 			// DB getUser
 			// userDao.getUser(id, pw); // return == no, name
-			UserVo userVo = userDao.getUser(id, pw);
-			if (userVo != null) {
+//			UserVo userVo = userDao.getUser(id, pw);
+			if (userDao.getUser(id, pw) != null) {
 				// if (id != null || pw != null) SAVE in SESSION
-				session.setAttribute("authUser", userVo);
+				session.setAttribute("authUser", userDao.getUser(id, pw));
 				
 				// sendRedirect
 				WebUtil.sendRedirect(response, "/mysite/main");
@@ -79,9 +79,9 @@ public class UserController extends HttpServlet {
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
 			
 			//DB getUser
-			UserVo userVo = userDao.getUser(authUser.getNo());
+//			UserVo userVo = userDao.getUser(authUser.getNo());
 			
-			session.setAttribute("modifyUser", userVo);
+			session.setAttribute("modifyUser", userDao.getUser(authUser.getNo()));
 			// FORWARD
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 		} else if ("modify".equals(action)) {
@@ -93,11 +93,11 @@ public class UserController extends HttpServlet {
 			String gender = request.getParameter("gender");
 			
 			// DB UPDATE
-			userDao.update(new UserVo(no, pw, name, gender));
+			userDao.update(new UserVo(no, id, pw, name, gender));
 			
 			// SESSION
-			UserVo userVo = userDao.getUser(id, pw);
-			session.setAttribute("authUser", userVo);
+//			UserVo userVo = userDao.getUser(id, pw);
+			session.setAttribute("authUser", userDao.getUser(id, pw));
 			
 			// sendRedirect
 			WebUtil.sendRedirect(response, "/mysite/main");

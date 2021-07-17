@@ -103,8 +103,8 @@ public class UserDao {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				int no = rs.getInt("no");
-				String name = rs.getString("name");
+//				int no = rs.getInt("no");
+//				String name = rs.getString("name");
 				
 				// 2개짜리 생성자가 없는 경우
 				/*
@@ -112,7 +112,7 @@ public class UserDao {
 				 * userVo.setName(name);
 				 */
 				
-				userVo = new UserVo(no, name);
+				userVo = new UserVo(rs.getInt("no"), rs.getString("name"));
 			}
 			
 		} catch (SQLException e) {
@@ -163,7 +163,7 @@ public class UserDao {
 	*/
 	
 	public UserVo getUser(int no) {
-		UserVo userVo = new UserVo();
+		UserVo userVo = null;
 		
 		getConnection();
 		
@@ -213,12 +213,14 @@ public class UserDao {
 					+ " 	gender = ? "
 					+ " WHERE "
 					+ " 	no = ? "
+					+ " 	AND id = ? "
 					);
 			
 			pstmt.setString(1, uVo.getPassword());
 			pstmt.setString(2, uVo.getName());
 			pstmt.setString(3, uVo.getGender());
 			pstmt.setInt(4, uVo.getNo());
+			pstmt.setString(5, uVo.getId());
 			
 			count = pstmt.executeUpdate();
 		} catch (SQLException e) {
