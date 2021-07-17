@@ -101,7 +101,21 @@ public class UserController extends HttpServlet {
 			
 			// sendRedirect
 			WebUtil.sendRedirect(response, "/mysite/main");
-		}
+			
+		} /* else if ("idOver".equals(action)) {
+			// getParameter
+			String id = request.getParameter("id");
+			
+			// DB idOver
+			userDao.idOver(id);
+			
+			// setAttribute
+			request.setAttribute("idOver", userDao.idOver(id));
+			request.setAttribute("id", id);
+			
+			// FORWARD
+			WebUtil.forward(request, response, "/WEB-INF/views/user/joinForm.jsp");
+		} */
 
 	}
 

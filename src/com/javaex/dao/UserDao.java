@@ -229,5 +229,37 @@ public class UserDao {
 		
 		return count;
 	}
+	/*
+	public UserVo idOver(String id) {
+		UserVo userVo = new UserVo();
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" SELECT "
+					+ " 	id "
+					+ " FROM "
+					+ " 	users "
+					+ " WHERE "
+					+ " 	id = ? "
+					);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				userVo = new UserVo(rs.getString("id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return userVo;
+	} */
 
 }
