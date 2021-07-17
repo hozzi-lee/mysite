@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,7 @@
 	<div id="wrap">
 
 		<!-- header / nav -->
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -51,7 +53,6 @@
 								<label class="form-text" for="input-uid">아이디</label> 
 								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 								<button type="button" id="">중복체크</button>
-								<p style="color: red; text-align: center; margin-bottom: -10px;">현재 사용중인 아이디 입니다.</p>
 							</div>
 	
 							<!-- 비밀번호 -->
@@ -101,7 +102,7 @@
 		</div>
 		<!-- //container  -->
 		
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
