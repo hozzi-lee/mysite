@@ -1,15 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="com.javaex.vo.GuestbookVo"%>
-<%@ page import="com.javaex.vo.UserVo"%>
-<%@ page import="java.util.List"%>
-
-<%
-UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-List<GuestbookVo> gList = (List<GuestbookVo>) request.getAttribute("gList");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -79,31 +71,28 @@ List<GuestbookVo> gList = (List<GuestbookVo>) request.getAttribute("gList");
 						<!-- //guestWrite -->
 						<input type="hidden" name="action" value="add">
 						
-					</form>	
-					<%
-					for (GuestbookVo g : gList) {
-					%>
-					<table class="guestRead">
-						<colgroup>
-							<col style="width: 10%;">
-							<col style="width: 40%;">
-							<col style="width: 40%;">
-							<col style="width: 10%;">
-						</colgroup>
-						<tr>
-							<td><%=g.getNo()%></td>
-							<td><%=g.getName()%></td>
-							<td><%=g.getDate()%></td>
-							<td><a href="/mysite/guest?action=deleteForm&no=<%=g.getNo()%>">[삭제]</a></td>
-						</tr>
-						<tr>
-							<td colspan=4 class="text-left"><%=g.getContent()%></td>
-						</tr>
-					</table>
-					<!-- //guestRead -->
-					<%
-					}
-					%>
+					</form>
+					
+					<c:forEach items="${ requestScope.gList }" var="g" varStatus="status">
+						<table class="guestRead">
+							<colgroup>
+								<col style="width: 10%;">
+								<col style="width: 40%;">
+								<col style="width: 40%;">
+								<col style="width: 10%;">
+							</colgroup>
+							<tr>
+								<td>${ g.no }</td>
+								<td>${ g.name }</td>
+								<td>${ g.date }</td>
+								<td><a href="/mysite/guest?action=deleteForm&no=${ g.no }">[삭제]</a></td>
+							</tr>
+							<tr>
+								<td colspan=4 class="text-left">${ g.content }</td>
+							</tr>
+						</table>
+						<!-- //guestRead -->
+					</c:forEach>
 					
 				</div>
 				<!-- //guestbook -->

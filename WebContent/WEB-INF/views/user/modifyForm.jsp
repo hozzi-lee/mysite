@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="com.javaex.vo.UserVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-UserVo modifyUser = (UserVo)session.getAttribute("modifyUser");
+request.setAttribute("male", "male");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,61 +52,53 @@ UserVo modifyUser = (UserVo)session.getAttribute("modifyUser");
 					<div id="modifyForm">
 						<form action="/mysite/user" method="post">
 						<input type="hidden" name="action" value="modify">
-						<input type="hidden" name="no" value="<%=modifyUser.getNo()%>">
-						<input type="hidden" name="id" value="<%=modifyUser.getId()%>">
+						<input type="hidden" name="no" value="${ sessionScope.modifyUser.no }">
+						<input type="hidden" name="id" value="${ sessionScope.modifyUser.id }">
 	
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<span class="text-large bold"><%=modifyUser.getId()%></span>
+								<span class="text-large bold">${ sessionScope.modifyUser.id }</span>
 							</div>
 	
 							<!-- 비밀번호 -->
 							<div class="form-group">
 								<label class="form-text" for="input-pass">패스워드</label> 
-								<input type="password" id="input-pass" name="pw" value="<%=modifyUser.getPassword()%>" placeholder="비밀번호를 입력하세요"	>
+								<input type="password" id="input-pass" name="pw" value="${ sessionScope.modifyUser.password }" placeholder="비밀번호를 입력하세요"	>
 							</div>
 	
 							<!-- 이름 -->
 							<div class="form-group">
 								<label class="form-text" for="input-name">이름</label> 
-								<input type="text" id="input-name" name="name" value="<%=modifyUser.getName()%>" placeholder="이름을 입력하세요">
+								<input type="text" id="input-name" name="name" value="${ sessionScope.modifyUser.name }" placeholder="이름을 입력하세요">
 							</div>
 	
 							<!-- 성별 -->
 							
-							<%
-							if ("male".equals(modifyUser.getGender())) {
-							%>
-							<div class="form-group">
-								<span class="form-text">성별</span> 
-								
-								<label for="rdo-male">남</label> 
-								<input type="radio" id="rdo-male" name="gender" value="male" checked="checked">
-								
-								<label for="rdo-female">여</label> 
-								<input type="radio" id="rdo-female" name="gender" value="female">
-	
-							</div>
-							
-							<%
-							} else {
-							%>
-	
-							<div class="form-group">
-								<span class="form-text">성별</span> 
-								
-								<label for="rdo-male">남</label> 
-								<input type="radio" id="rdo-male" name="gender" value="male">
-								
-								<label for="rdo-female">여</label> 
-								<input type="radio" id="rdo-female" name="gender" value="female" checked="checked">
-	
-							</div>
-							
-							<%
-							}
-							%>
+							<c:choose>
+								<c:when test="${ requestScope.male.equals(sessionScope.modifyUser.gender) }">
+									<div class="form-group">
+										<span class="form-text">성별</span> 
+										
+										<label for="rdo-male">남</label> 
+										<input type="radio" id="rdo-male" name="gender" value="male" checked="checked">
+										
+										<label for="rdo-female">여</label> 
+										<input type="radio" id="rdo-female" name="gender" value="female">
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="form-group">
+										<span class="form-text">성별</span> 
+										
+										<label for="rdo-male">남</label> 
+										<input type="radio" id="rdo-male" name="gender" value="male">
+										
+										<label for="rdo-female">여</label> 
+										<input type="radio" id="rdo-female" name="gender" value="female" checked="checked">
+									</div>
+								</c:otherwise>
+							</c:choose>
 	
 							<!-- 버튼영역 -->
 							<div class="button-area">

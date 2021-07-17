@@ -51,6 +51,7 @@
 								<label class="form-text" for="input-uid">아이디</label> 
 								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 								<button type="button" id="">중복체크</button>
+								<p style="color: red; text-align: center; margin-bottom: -10px;">현재 사용중인 아이디 입니다.</p>
 							</div>
 	
 							<!-- 비밀번호 -->

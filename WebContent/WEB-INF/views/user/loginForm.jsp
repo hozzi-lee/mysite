@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
-String result = request.getParameter("result");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<% request.setAttribute("fail", "fail"); %>
 
 <!DOCTYPE html>
 <html>
@@ -63,13 +63,11 @@ String result = request.getParameter("result");
 								<input type="password" id="input-pass" name="pw" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
 							
-							<% if ("fail".equals(result)) { %>
-							
-							<p>
-								로그인에 실패했습니다. 다시 로그인 해주세요.
-							</p>
-	
-							<% } %>
+							<c:if test="${ requestScope.fail.equals(param.result) }">
+								<p>
+									로그인에 실패했습니다. 다시 로그인 해주세요.
+								</p>
+							</c:if>
 							
 							<!-- 버튼영역 -->
 							<div class="button-area">

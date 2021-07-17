@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%
-String id = request.getParameter("id");
-String name = request.getParameter("name");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +46,7 @@ String name = request.getParameter("name");
 					<div id="joinOK">
 					
 						<p class="text-large bold">
-							<%=name%>(<%=id%>)님 회원가입을 축하합니다.<br>
+							${ param.name }(${ param.id })님 회원가입을 축하합니다.<br>
 							<br>
 							<a href="/mysite/user?action=loginForm" >[로그인하기]</a>
 						</p>
