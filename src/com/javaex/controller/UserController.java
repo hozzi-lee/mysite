@@ -42,6 +42,7 @@ public class UserController extends HttpServlet {
 			// FORWARD - joinOk.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinOk.jsp");
 		} else if ("loginForm".equals(action)) {
+			request.setAttribute("fail", "fail");
 			
 			// FORWARD - loginForm.jsp
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
@@ -77,6 +78,8 @@ public class UserController extends HttpServlet {
 		} else if ("modifyForm".equals(action)) {
 			// getParameter
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			request.setAttribute("male", "male");
 			
 			//DB getUser
 //			UserVo userVo = userDao.getUser(authUser.getNo());
