@@ -61,7 +61,9 @@
 								<input type="password" id="input-pass" name="pw" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
 							
-							<c:if test="${ requestScope.fail.equals(param.result) }">
+							<%-- <c:if test="${ requestScope.fail.equals(param.result) }"> --%> <!-- Controller setAttribute -->
+							<%-- <c:if test="${ param.result.equals('fail') }"> --%>
+							<c:if test="${ param.result eq 'fail' }">
 								<p>
 									로그인에 실패했습니다. 다시 로그인 해주세요.
 								</p>
