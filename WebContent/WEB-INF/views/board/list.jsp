@@ -67,7 +67,7 @@
 							<tbody>
 								<c:forEach items="${ requestScope.gList }" var="gL" varStatus="status">
 									<tr>
-										<td>${ requestScope.listCount = requestScope.listCount - 1 }</td>
+										<td>${ requestScope.listCount - status.index }</td>
 										<td class="text-center"><a href="/mysite/board?action=read&no=${ gL.no }">${ gL.title }</a></td>
 										<td>${ gL.name }</td>
 										<td>${ gL.hit }</td>
