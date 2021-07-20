@@ -65,15 +65,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${ requestScope.gList }" var="gL" varStatus="status">
+								<!-- var= "gL -> vo" fix -->
+								<c:forEach items="${ requestScope.gList }" var="vo" varStatus="status">
 									<tr>
 										<td>${ requestScope.listCount - status.index }</td>
-										<td class="text-center"><a href="/mysite/board?action=read&no=${ gL.no }">${ gL.title }</a></td>
-										<td>${ gL.name }</td>
-										<td>${ gL.hit }</td>
-										<td>${ gL.date }</td>
-										<c:if test="${ sessionScope.authUser.no eq gL.userNo }">
-										<td><a href="/mysite/board?action=delete&no=${ gL.no }">[삭제]</a></td>
+										<td class="text-center"><a href="/mysite/board?action=read&no=${ vo.no }">${ vo.title }</a></td>
+										<td>${ vo.name }</td>
+										<td>${ vo.hit }</td>
+										<td>${ vo.date }</td>
+										<c:if test="${ sessionScope.authUser.no eq vo.userNo }">
+										<td><a href="/mysite/board?action=delete&no=${ vo.no }">[삭제]</a></td>
 										</c:if>
 									</tr>
 								</c:forEach>

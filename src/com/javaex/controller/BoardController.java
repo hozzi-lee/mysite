@@ -7,10 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -22,6 +24,8 @@ public class BoardController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		BoardDao boardDao = new BoardDao();
+		
+		HttpSession session = request.getSession();
 
 		String action = request.getParameter("action");
 
@@ -40,17 +44,17 @@ public class BoardController extends HttpServlet {
 		} else if ("write".equals(action)) {
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			String name = request.getParameter("name");
-			int userNo = Integer.parseInt(request.getParameter("userNo"));
-
-			boardDao.insert(new BoardVo(title, content, name, userNo));
+			int userNo = ((UserVo)session.getAttribute("authUser")).getNo();
+			
+			boardDao.insert(new BoardVo(title, content, userNo));
 
 			WebUtil.sendRedirect(response, "/mysite/board?action=list");
 
 		} else if ("read".equals(action)) {
 			int no = Integer.parseInt(request.getParameter("no"));
-
-			request.setAttribute("readList", boardDao.readList(no));
+			
+			// feedback fix --> read.jsp
+			request.setAttribute("boardVo", boardDao.boardVo(no));
 			boardDao.countHit(no);
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
@@ -58,7 +62,8 @@ public class BoardController extends HttpServlet {
 		} else if ("modifyForm".equals(action)) {
 			int no = Integer.parseInt(request.getParameter("no"));
 
-			request.setAttribute("modifyInfo", boardDao.readList(no));
+			// feedback fix
+			request.setAttribute("modifyInfo", boardDao.boardVo(no));
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");
 
@@ -67,7 +72,7 @@ public class BoardController extends HttpServlet {
 			String content = request.getParameter("content");
 			int no = Integer.parseInt(request.getParameter("no"));
 
-			boardDao.update(new BoardVo(title, content, no));
+			boardDao.update(new BoardVo(no, title, content));
 
 			WebUtil.sendRedirect(response, "/mysite/board?action=list");
 

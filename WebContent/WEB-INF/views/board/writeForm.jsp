@@ -48,9 +48,6 @@
 					<div id="writeForm">
 						<form action="/mysite/board" method="get">
 						<input type="hidden" name="action" value="write">
-						<input type="hidden" name="name" value="${ authUser.name }">
-						<input type="hidden" name="userNo" value="${ authUser.no }">
-						<input type="hidden" name="hit" value="0">
 							<!-- 제목 -->
 							<div class="form-group">
 								<label class="form-text" for="txt-title">제목</label>

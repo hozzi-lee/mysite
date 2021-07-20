@@ -171,7 +171,7 @@ public class BoardDao {
 	}
 	
 	// SELECT listOne
-	public BoardVo readList(int no) {
+	public BoardVo boardVo(int no) {
 		BoardVo boardVo = new BoardVo();
 		
 		getConnection();

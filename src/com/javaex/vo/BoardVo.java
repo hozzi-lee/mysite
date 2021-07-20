@@ -14,16 +14,15 @@ public class BoardVo {
 
 	}
 	
-	public BoardVo(String title, String content, int no) {
+	public BoardVo(int no, String title, String content) {
+		this.no = no;
 		this.title = title;
 		this.content = content;
-		this.no = no;
 	}
 	
-	public BoardVo(String title, String content, String name, int userNo) {
+	public BoardVo(String title, String content, int userNo) {
 		this.title = title;
 		this.content = content;
-		this.name = name;
 		this.userNo = userNo;
 	}
 	

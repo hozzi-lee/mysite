@@ -50,36 +50,36 @@
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>
-								<span class="form-value">${ requestScope.readList.name }</span>
+								<span class="form-value">${ requestScope.boardVo.name }</span>
 							</div>
 							
 							<!-- 조회수 -->
 							<div class="form-group">
 								<span class="form-text">조회수</span>
-								<span class="form-value">${ requestScope.readList.hit }</span>
+								<span class="form-value">${ requestScope.boardVo.hit }</span>
 							</div>
 							
 							<!-- 작성일 -->
 							<div class="form-group">
 								<span class="form-text">작성일</span>
-								<span class="form-value">${ requestScope.readList.date }</span>
+								<span class="form-value">${ requestScope.boardVo.date }</span>
 							</div>
 							
 							<!-- 제목 -->
 							<div class="form-group">
 								<span class="form-text">제 목</span>
-								<span class="form-value">${ requestScope.readList.title }</span>
+								<span class="form-value">${ requestScope.boardVo.title }</span>
 							</div>
 						
 							<!-- 내용 -->
 							<div id="txt-content">
 								<span class="form-value" >
-									${ requestScope.readList.content }
+									${ requestScope.boardVo.content }
 								</span>
 							</div>
 							
-							<c:if test="${ sessionScope.authUser.no eq requestScope.readList.userNo }">
-							<a id="btn_modify" href="/mysite/board?action=modifyForm&no=${ requestScope.readList.no }">수정</a>
+							<c:if test="${ sessionScope.authUser.no eq requestScope.boardVo.userNo }">
+							<a id="btn_modify" href="/mysite/board?action=modifyForm&no=${ requestScope.boardVo.no }">수정</a>
 							</c:if>
 							<a id="btn_modify" href="/mysite/board?action=list">목록</a>
 							
