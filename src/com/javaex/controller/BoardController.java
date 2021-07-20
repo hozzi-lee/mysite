@@ -30,7 +30,7 @@ public class BoardController extends HttpServlet {
 		if ("list".equals(action)) {
 			request.setAttribute("gList", boardDao.getList());
 
-			request.setAttribute("listCount", boardDao.listCount());
+			request.setAttribute("listCount", boardDao.listCount() + 1);
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 
@@ -83,7 +83,7 @@ public class BoardController extends HttpServlet {
 
 			request.setAttribute("gList", boardDao.searchList(keyword));
 
-			request.setAttribute("listCount", boardDao.listCount(keyword));
+			request.setAttribute("listCount", boardDao.listCount(keyword) + 1);
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 
