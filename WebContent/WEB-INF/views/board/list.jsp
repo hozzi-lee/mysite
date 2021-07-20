@@ -19,14 +19,37 @@
 
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 
-		<c:import url="/WEB-INF/views/includes/aside_board.jsp"></c:import>
+		<div id="container" class="clearfix">
+			<div id="aside">
+				<h2>게시판</h2>
+				<ul>
+					<li><a href="">일반게시판</a></li>
+					<li><a href="">댓글게시판</a></li>
+				</ul>
+			</div>
+			<!-- //aside -->
+			
+			<div id="content">
+			
+				<div id="content-head">
+					<h3>게시판</h3>
+					<div id="location">
+						<ul>
+							<li>홈</li>
+							<li>게시판</li>
+							<li class="last">일반게시판</li>
+						</ul>
+					</div>
+				<div class="clear"></div>
+			</div>
 				<!-- //content-head -->
 	
 				<div id="board">
 					<div id="list">
-						<form action="" method="">
+						<form action="/mysite/board" method="get">
+						<input type="hidden" name="action" value="search">
 							<div class="form-group text-right">
-								<input type="text">
+								<input type="text" name="keyword" value="">
 								<button type="submit" id=btn_search>검색</button>
 							</div>
 						</form>
@@ -42,15 +65,17 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${ requestScope.gList }" var="g" varStatus="status">
-								<tr>
-									<td>${ g.no }</td>
-									<td class="text-left"><a href="/mysite/board?action=read&no=${ g.no }">${ g.title }</a></td>
-									<td>${ g.name }</td>
-									<td>${ g.hit }</td>
-									<td>${ g.date }</td>
-									<td><a href="/mysite/board?action=delete&no=${ g.no }">[삭제]</a></td>
-								</tr>
+								<c:forEach items="${ requestScope.gList }" var="gL" varStatus="status">
+									<tr>
+										<td>${ requestScope.listCount = requestScope.listCount - 1 }</td>
+										<td class="text-center"><a href="/mysite/board?action=read&no=${ gL.no }">${ gL.title }</a></td>
+										<td>${ gL.name }</td>
+										<td>${ gL.hit }</td>
+										<td>${ gL.date }</td>
+										<c:if test="${ sessionScope.authUser.no eq gL.userNo }">
+										<td><a href="/mysite/board?action=delete&no=${ gL.no }">[삭제]</a></td>
+										</c:if>
+									</tr>
 								</c:forEach>
 							</tbody>
 						</table>

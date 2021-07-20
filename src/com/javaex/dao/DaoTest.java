@@ -1,5 +1,7 @@
 package com.javaex.dao;
 
+import com.javaex.vo.BoardVo;
+
 public class DaoTest {
 
 	public static void main(String[] args) {
@@ -19,11 +21,19 @@ public class DaoTest {
 		
 //		boardDao.insert(new BoardVo("asd", "asd", "asd", 1));
 		
-		System.out.println(boardDao.getList());
+//		System.out.println(boardDao.getList());
 		
-		System.out.println(boardDao.readList(2));
+//		System.out.println(boardDao.readList(2));
 		
-		System.out.println(boardDao.countHit(2));
+//		System.out.println(boardDao.countHit(2));
+		
+//		boardDao.update(new BoardVo("셋", "셋", 10));
+		
+//		boardDao.delete(2);
+		
+//		boardDao.countHit(14);
+		
+		System.out.println(boardDao.listCount());
 	}
 
 }

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 내용</title>
+<title>게시글</title>
 <link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/board.css" rel="stylesheet" type="text/css">
 
@@ -79,7 +79,7 @@
 							</div>
 							
 							<c:if test="${ sessionScope.authUser.no eq requestScope.readList.userNo }">
-							<a id="btn_modify" href="/mysite/board?action=modifyForm&no=${ readList.no }">수정</a>
+							<a id="btn_modify" href="/mysite/board?action=modifyForm&no=${ requestScope.readList.no }">수정</a>
 							</c:if>
 							<a id="btn_modify" href="/mysite/board?action=list">목록</a>
 							

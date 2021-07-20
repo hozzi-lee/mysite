@@ -45,7 +45,9 @@
 	
 				<div id="board">
 					<div id="modifyForm">
-						<form action="#" method="get">
+						<form action="/mysite/board" method="get">
+						<input type="hidden" name="action" value="modify">
+						<input type="hidden" name="no" value="${ requestScope.modifyInfo.no }">
 							<!-- 작성자 -->
 							<div class="form-group">
 								<span class="form-text">작성자</span>
@@ -67,14 +69,14 @@
 							<!-- 제목 -->
 							<div class="form-group">
 								<label class="form-text" for="txt-title">제목</label>
-								<input type="text" id="txt-title" name="" value="${ requestScope.modifyInfo.title }">
+								<input type="text" id="txt-title" name="title" value="${ requestScope.modifyInfo.title }">
 							</div>
 						
 							
 						
 							<!-- 내용 -->
 							<div class="form-group">
-								<textarea id="txt-content">
+								<textarea id="txt-content" name="content">
 									${ requestScope.modifyInfo.content }
 								</textarea>
 							</div>

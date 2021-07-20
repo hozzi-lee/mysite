@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.type.PrimitiveType;
+
 import com.javaex.vo.BoardVo;
 
 public class BoardDao {
@@ -60,7 +62,8 @@ public class BoardDao {
 					+ " 	board.title, "
 					+ " 	users.name, "
 					+ " 	board.hit, "
-					+ " 	board.reg_date "
+					+ " 	board.reg_date, "
+					+ " 	board.user_no "
 					+ " FROM "
 					+ " 	users, "
 					+ " 	board "
@@ -72,7 +75,7 @@ public class BoardDao {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				bList.add(new BoardVo(rs.getInt("no"), rs.getString("title"), rs.getString("name"), rs.getInt("hit"), rs.getString("reg_date")));
+				bList.add(new BoardVo(rs.getInt("no"), rs.getString("title"), rs.getString("name"), rs.getInt("hit"), rs.getString("reg_date"), rs.getInt("user_no")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,33 +155,189 @@ public class BoardDao {
 	
 	// countGetHit
 	public int countHit(int no) {
-		int hit = 0;
+		int count = -1;
 		
 		getConnection();
 		
 		try {
 			pstmt = conn.prepareStatement(
-					" SELECT "
-					+ " 	hit "
-					+ " FROM "
+					" UPDATE "
 					+ " 	board "
+					+ " SET "
+					+ " 	hit = (hit + 1) "
 					+ " WHERE "
 					+ " 	no = ? "
 					);
 			pstmt.setInt(1, no);
 			
-			rs = pstmt.executeQuery();
+			count = pstmt.executeUpdate();
 			
-			while(rs.next()) {
-				hit = rs.getInt("hit");
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		getClose();
 		
-		return hit;
+		return count;
 	}
-
+	
+	// UPDATE
+	public int update(BoardVo bVo) {
+		int count = -1;
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" UPDATE "
+					+ " 	board "
+					+ " SET "
+					+ " 	title = ?, "
+					+ " 	content = ? "
+					+ " WHERE "
+					+ " 	no = ? "
+					);
+			pstmt.setString(1, bVo.getTitle());
+			pstmt.setString(2, bVo.getContent());
+			pstmt.setInt(3, bVo.getNo());
+			
+			count = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return count;
+	}
+	
+	// DELETE
+	public int delete(int no) {
+		int count = -1;
+		
+		getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(
+					" DELETE FROM "
+					+ " 	board "
+					+ " WHERE "
+					+ " 	no = ? "
+					);
+			pstmt.setInt(1, no);
+			
+			count = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return count;
+	}
+	
+	// search
+		public List<BoardVo> searchList(String k) {
+			List<BoardVo> bList = new ArrayList<BoardVo>();
+			
+			getConnection();
+			
+			try {
+				pstmt = conn.prepareStatement(
+						" SELECT "
+						+ " 	board.no, "
+						+ " 	board.title, "
+						+ " 	users.name, "
+						+ " 	board.hit, "
+						+ " 	board.reg_date, "
+						+ " 	board.user_no "
+						+ " FROM "
+						+ " 	users FULL OUTER JOIN board "
+						+ " 	ON users.no = board.user_no "
+						+ " WHERE "
+						+ " 	board.title LIKE '%" + k + "%' "
+						+ " 	OR users.name LIKE '%" + k + "%' "
+						+ " 	OR board.no LIKE '%" + k + "%' "
+						+ " ORDER BY "
+						+ " 	board.no DESC "
+						);
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					bList.add(new BoardVo(rs.getInt("no"), rs.getString("title"), rs.getString("name"), rs.getInt("hit"), rs.getString("reg_date"), rs.getInt("user_no")));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			getClose();
+			
+			return bList;
+		}
+		
+		public int listCount() {
+//			List<Integer> cList = new ArrayList<Integer>();
+			
+			int count = 0;
+			
+			getConnection();
+			
+			try {
+				pstmt = conn.prepareStatement(
+						" SELECT "
+						+ " 	COUNT(no) "
+						+ " FROM "
+						+ " 	board "
+						);
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					count = rs.getInt("COUNT(no)");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			getClose();
+			
+			return count;
+		}
+		
+		public int listCount(String k) {
+//			List<Integer> cList = new ArrayList<Integer>();
+			
+			int count = 0;
+			
+			getConnection();
+			
+			try {
+				pstmt = conn.prepareStatement(
+						" SELECT "
+						+ " 	COUNT(no) "
+						+ " FROM "
+						+ " 	( SELECT "
+						+ " 	board.no "
+						+ " FROM "
+						+ " 	users FULL OUTER JOIN board "
+						+ " 	ON users.no = board.user_no "
+						+ " WHERE "
+						+ " 	board.title LIKE '%" + k + "%' "
+						+ " 	OR users.name LIKE '%" + k + "%' "
+						+ " 	OR board.no LIKE '%" + k + "%' "
+						+ " 	) "
+						);
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					count = rs.getInt("COUNT(no)");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			getClose();
+			
+			return count;
+		}
+	
 }
