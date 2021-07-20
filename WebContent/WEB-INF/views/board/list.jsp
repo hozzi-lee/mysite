@@ -47,7 +47,7 @@
 				<div id="board">
 					<div id="list">
 						<form action="/mysite/board" method="get">
-						<input type="hidden" name="action" value="search">
+						<input type="hidden" name="action" value="list">
 							<div class="form-group text-right">
 								<input type="text" name="keyword" value="">
 								<button type="submit" id=btn_search>검색</button>

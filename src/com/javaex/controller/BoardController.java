@@ -21,16 +21,16 @@ public class BoardController extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
-//		HttpSession session = request.getSession();
-
 		BoardDao boardDao = new BoardDao();
 
 		String action = request.getParameter("action");
 
 		if ("list".equals(action)) {
-			request.setAttribute("gList", boardDao.getList());
+			String keyword = request.getParameter("keyword");
+			
+			request.setAttribute("gList", boardDao.getList(keyword));
 
-			request.setAttribute("listCount", boardDao.listCount());
+			request.setAttribute("listCount", boardDao.listCount(keyword));
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 
@@ -78,17 +78,7 @@ public class BoardController extends HttpServlet {
 
 			WebUtil.sendRedirect(response, "/mysite/board?action=list");
 
-		} else if ("search".equals(action)) {
-			String keyword = request.getParameter("keyword");
-
-			request.setAttribute("gList", boardDao.searchList(keyword));
-
-			request.setAttribute("listCount", boardDao.listCount(keyword));
-
-			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
-
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

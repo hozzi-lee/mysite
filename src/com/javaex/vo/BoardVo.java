@@ -14,11 +14,6 @@ public class BoardVo {
 
 	}
 	
-	public BoardVo(String title, String content) {
-		this.title = title;
-		this.content = content;
-	}
-	
 	public BoardVo(String title, String content, int no) {
 		this.title = title;
 		this.content = content;
@@ -30,22 +25,6 @@ public class BoardVo {
 		this.content = content;
 		this.name = name;
 		this.userNo = userNo;
-	}
-	
-	public BoardVo(int no, String title, String name, int hit, String date) {
-		this.no = no;
-		this.title = title;
-		this.name = name;
-		this.hit = hit;
-		this.date = date;
-	}
-	
-	public BoardVo(String name, int hit, String date, String title, String content) {
-		this.name = name;
-		this.hit = hit;
-		this.date = date;
-		this.title = title;
-		this.content = content;
 	}
 	
 	public BoardVo(int no, String title, String name, int hit, String date, int userNo) {

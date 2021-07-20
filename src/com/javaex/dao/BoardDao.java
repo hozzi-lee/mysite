@@ -49,29 +49,40 @@ public class BoardDao {
 		}
 	}
 	
-	// SELECT
-	public List<BoardVo> getList() {
+	// SELECT + search
+	public List<BoardVo> getList(String k) {
 		List<BoardVo> bList = new ArrayList<BoardVo>();
 		
 		getConnection();
 		
 		try {
-			pstmt = conn.prepareStatement(
-					" SELECT "
-					+ " 	board.no, "
-					+ " 	board.title, "
-					+ " 	users.name, "
-					+ " 	board.hit, "
-					+ " 	board.reg_date, "
-					+ " 	board.user_no "
-					+ " FROM "
-					+ " 	users, "
-					+ " 	board "
-					+ " WHERE "
-					+ " 	users.no = board.user_no "
-					+ " ORDER BY "
-					+ " 	board.no DESC "
-					);
+			String query = "";
+				query += " SELECT "
+						+ " 	board.no, "
+						+ " 	board.title, "
+						+ " 	users.name, "
+						+ " 	board.hit, "
+						+ " 	board.reg_date, "
+						+ " 	board.user_no "
+						+ " FROM "
+						+ " 	users FULL OUTER JOIN board "
+						+ " 	ON users.no = board.user_no ";
+				
+				if ( k == null || "".equals(k)) {
+					query += " ORDER BY "
+							+ " 	board.no DESC ";
+					
+				} else {
+					query += " WHERE "
+							+ " 	board.title LIKE '%" + k + "%' "
+							+ " 	OR users.name LIKE '% " + k + "%' "
+							+ " ORDER BY "
+							+ " 	board.no DESC ";
+					
+				}
+			
+			pstmt = conn.prepareStatement(query);
+			
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -84,6 +95,51 @@ public class BoardDao {
 		getClose();
 		
 		return bList;
+	}
+	
+	// listCount
+	public int listCount(String k) {
+		
+		int count = 0;
+		
+		getConnection();
+		
+		try {
+			String query = "";
+				query += " SELECT "
+						+ " 	COUNT(no) ";
+				
+			if ( k == null || "".equals(k)) {
+				query += " FROM "
+						+ " 	board ";
+			} else {
+				query += " FROM "
+						+ " 	( SELECT "
+						+ " 		board.no "
+						+ " 	FROM "
+						+ " 		users FULL OUTER JOIN board "
+						+ " 		ON users.no = board.user_no "
+						+ " 	WHERE "
+						+ " 		board.title LIKE '%" + k + "%' "
+						+ " 		OR users.name LIKE '%" + k + "%' "
+						+ " 		OR board.no LIKE '%" + k + "%' "
+						+ " 	) ";
+			}
+			
+			pstmt = conn.prepareStatement(query);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				count = rs.getInt("COUNT(no)");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		getClose();
+		
+		return count;
 	}
 	
 	// INSERT
@@ -153,7 +209,7 @@ public class BoardDao {
 		return boardVo;
 	}
 	
-	// countGetHit
+	// countHit
 	public int countHit(int no) {
 		int count = -1;
 		
@@ -235,109 +291,5 @@ public class BoardDao {
 		
 		return count;
 	}
-	
-	// search
-		public List<BoardVo> searchList(String k) {
-			List<BoardVo> bList = new ArrayList<BoardVo>();
-			
-			getConnection();
-			
-			try {
-				pstmt = conn.prepareStatement(
-						" SELECT "
-						+ " 	board.no, "
-						+ " 	board.title, "
-						+ " 	users.name, "
-						+ " 	board.hit, "
-						+ " 	board.reg_date, "
-						+ " 	board.user_no "
-						+ " FROM "
-						+ " 	users FULL OUTER JOIN board "
-						+ " 	ON users.no = board.user_no "
-						+ " WHERE "
-						+ " 	board.title LIKE '%" + k + "%' "
-						+ " 	OR users.name LIKE '%" + k + "%' "
-						+ " 	OR board.no LIKE '%" + k + "%' "
-						+ " ORDER BY "
-						+ " 	board.no DESC "
-						);
-				rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					bList.add(new BoardVo(rs.getInt("no"), rs.getString("title"), rs.getString("name"), rs.getInt("hit"), rs.getString("reg_date"), rs.getInt("user_no")));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			getClose();
-			
-			return bList;
-		}
-		
-		public int listCount() {
-//			List<Integer> cList = new ArrayList<Integer>();
-			
-			int count = 0;
-			
-			getConnection();
-			
-			try {
-				pstmt = conn.prepareStatement(
-						" SELECT "
-						+ " 	COUNT(no) "
-						+ " FROM "
-						+ " 	board "
-						);
-				rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					count = rs.getInt("COUNT(no)");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			getClose();
-			
-			return count;
-		}
-		
-		public int listCount(String k) {
-//			List<Integer> cList = new ArrayList<Integer>();
-			
-			int count = 0;
-			
-			getConnection();
-			
-			try {
-				pstmt = conn.prepareStatement(
-						" SELECT "
-						+ " 	COUNT(no) "
-						+ " FROM "
-						+ " 	( SELECT "
-						+ " 	board.no "
-						+ " FROM "
-						+ " 	users FULL OUTER JOIN board "
-						+ " 	ON users.no = board.user_no "
-						+ " WHERE "
-						+ " 	board.title LIKE '%" + k + "%' "
-						+ " 	OR users.name LIKE '%" + k + "%' "
-						+ " 	OR board.no LIKE '%" + k + "%' "
-						+ " 	) "
-						);
-				rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					count = rs.getInt("COUNT(no)");
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			getClose();
-			
-			return count;
-		}
 	
 }

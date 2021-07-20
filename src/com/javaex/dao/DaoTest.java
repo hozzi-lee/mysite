@@ -33,7 +33,7 @@ public class DaoTest {
 		
 //		boardDao.countHit(14);
 		
-		System.out.println(boardDao.listCount());
+//		System.out.println(boardDao.listCount());
 	}
 
 }
