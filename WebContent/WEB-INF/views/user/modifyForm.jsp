@@ -72,7 +72,7 @@
 							<!-- 성별 -->
 							
 							<c:choose>
-								<%-- <c:when test="${ requestScope.male.equals(sessionScope.modifyUser.gender) }"> --%> <!-- Controller setAttribute -->
+								<%-- <c:when test="${ requestScope.male.equals(sessionScope.modifyUser.gender) }"> --%>
 								<%-- <c:when test="${ sessionScope.modifyUser.gender.equals('male') }"> --%>
 								<c:when test="${ sessionScope.modifyUser.gender eq 'male' }">
 								

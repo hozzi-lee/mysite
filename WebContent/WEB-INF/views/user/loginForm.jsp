@@ -46,7 +46,7 @@
 	
 				<div id="user">
 					<div id="loginForm">
-						<form action="/mysite/user" method="post">
+						<form action="/mysite/user" method="post" target="_self">
 						<input type="hidden" name="action" value="login">
 	
 							<!-- 아이디 -->
