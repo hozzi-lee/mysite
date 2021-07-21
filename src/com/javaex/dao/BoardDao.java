@@ -65,7 +65,7 @@ public class BoardDao {
 						+ " 	board.reg_date, "
 						+ " 	board.user_no "
 						+ " FROM "
-						+ " 	users FULL OUTER JOIN board "
+						+ " 	users RIGHT OUTER JOIN board "
 						+ " 	ON users.no = board.user_no ";
 				
 				if ( k == null || "".equals(k)) {
@@ -117,7 +117,7 @@ public class BoardDao {
 						+ " 	( SELECT "
 						+ " 		board.no "
 						+ " 	FROM "
-						+ " 		users FULL OUTER JOIN board "
+						+ " 		users RIGHT OUTER JOIN board "
 						+ " 		ON users.no = board.user_no "
 						+ " 	WHERE "
 						+ " 		board.title LIKE '%" + k + "%' "

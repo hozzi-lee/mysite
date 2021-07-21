@@ -81,7 +81,7 @@
 								</textarea>
 							</div>
 							
-							<a id="btn_cancel" href="/mysite/board?action=list">취소</a>
+							<a id="btn_cancel" href="/mysite/board?action=read&no=${ requestScope.modifyInfo.no }">취소</a>
 							<button id="btn_modify" type="submit" >수정</button>
 							
 						</form>

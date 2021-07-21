@@ -53,9 +53,9 @@ public class BoardController extends HttpServlet {
 		} else if ("read".equals(action)) {
 			int no = Integer.parseInt(request.getParameter("no"));
 			
+			boardDao.countHit(no);
 			// feedback fix --> read.jsp
 			request.setAttribute("boardVo", boardDao.boardVo(no));
-			boardDao.countHit(no);
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/read.jsp");
 

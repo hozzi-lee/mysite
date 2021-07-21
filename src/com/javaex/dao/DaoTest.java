@@ -21,7 +21,7 @@ public class DaoTest {
 		
 //		boardDao.insert(new BoardVo("asd", "asd", "asd", 1));
 		
-//		System.out.println(boardDao.getList());
+		System.out.println(boardDao.getList(""));
 		
 //		System.out.println(boardDao.readList(2));
 		
