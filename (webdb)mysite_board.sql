@@ -28,11 +28,11 @@ FROM
 
 INSERT INTO board VALUES (
     sqc_board_no.NEXTVAL,
-    '제목',
-    '내용',
-    1,
+    '제목123',
+    '내용123',
+    0,
     sysdate,
-    1
+    6
 );
 
 COMMIT;
@@ -42,12 +42,15 @@ SELECT
     board.title,
     users.name,
     board.hit,
-    board.reg_date
+    board.reg_date,
+    board.user_no
 FROM
     users,
     board
 WHERE
-    users.no = board.user_no;
+    users.no = board.user_no
+ORDER BY
+    board.no DESC;
 
 SELECT
     users.name,
@@ -61,7 +64,7 @@ FROM
     board
 WHERE
         users.no = board.user_no
-    AND board.no = 2;
+    AND board.no = 10;
 
 SELECT
     users.name,
@@ -78,9 +81,41 @@ WHERE
     AND users.no = 2
     AND board.user_no = 2;
 
-SELECT
-    hit
-FROM
+UPDATE
+    board
+SET
+    hit = (hit + 1)
+WHERE
+    no = 14;
+
+DELETE FROM
     board
 WHERE
-    no = 2;
+    no = 10;
+
+SELECT
+    board.no,
+    board.title,
+    users.name,
+    board.hit,
+    board.reg_date,
+    board.user_no
+FROM
+    users FULL OUTER JOIN board
+    ON users.no = board.user_no
+WHERE
+    board.no LIKE '%호%'
+    OR board.title LIKE '%호%'
+    OR users.name LIKE '%호%'
+ORDER BY
+    board.no DESC;
+
+SELECT
+    COUNT(no)
+FROM
+    (
+        SELECT
+            no
+        FROM
+            board
+    );
